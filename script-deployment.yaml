@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: script-deployment
+  labels:
+    app: script
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: script
+  template:
+    metadata:
+      labels:
+        app: script
+    spec:
+      containers:
+      - name: scheduling
+        image: eywrld839/scheduling
+        ports:
+        - containerPort: 3000
+        resources:
+          limits:
+            memory: 512Mi
+            cpu: "1"
+          requests:
+            memory: 256Mi
+            cpu: "0.2"
+
