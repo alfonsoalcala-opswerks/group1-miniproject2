@@ -8,7 +8,16 @@ pipeline {
             }
 
             steps {
-                sh 'docker build . -t scheduling_script:v1.0'
+                sh 'docker build . -t scheduling_script'
+            }
+        }
+
+        stage('Push image to hub') {
+            steps {
+                script {
+                    sh 'docker login -u dock_user -p dock_password docker-host:5000'
+                    sh 'docker push docker-host:5000/scheduling_script' 
+                }
             }
         }
 

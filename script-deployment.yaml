@@ -16,8 +16,8 @@ spec:
     spec:
       containers:
       - name: scheduling
-        image: scheduling_script:v1.0
-        imagePullPolicy: Never
+        image: docker-host:5000/scheduling_script
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 3000
         resources:
