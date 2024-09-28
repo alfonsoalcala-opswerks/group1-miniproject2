@@ -12,15 +12,6 @@ pipeline {
             }
         }
 
-        stage('Push image to hub') {
-            steps {
-                script {
-                    sh 'docker login -u dock_user -p dock_password docker-host:5000'
-                    sh 'docker push docker-host:5000/scheduling_script' 
-                }
-            }
-        }
-
         stage('Deploy') {
             agent {
                 label "docker"
