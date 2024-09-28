@@ -16,7 +16,8 @@ spec:
     spec:
       containers:
       - name: scheduling
-        image: eywrld839/scheduling
+        image: scheduling_script
+        imagePullPolicy: Never
         ports:
         - containerPort: 3000
         resources:
