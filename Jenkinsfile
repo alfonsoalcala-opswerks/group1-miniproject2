@@ -9,20 +9,21 @@ pipeline {
 
             steps {
                 sh 'docker build . -t scheduling_script:v1.0'
-                sh 'docker save -o /tmp/scheduling_script:v1.0.tar scheduling_script:v1.0'
-                sh 'scp /tmp/scheduling_script:v1.0.tar root@192.18.21.6:/tmp/'
             }
         }
 
         stage('Deploy') {
             agent {
-                label "kubernetes"
+                label "docker"
             }
             steps { 
-                        
-                    sh 'docker load -i /tmp/scheduling_script:v1.0.tar' 
-                    sh 'kubectl apply -f deployment.yaml' 
+                    withKubeConfig(caCertificate: "${KUBE_CERT}", clusterName: 'kubernetes', contextName: 'kubernetes-admin@kubernetes', credentialsId: 'my-kube-config-credentials', namespace: 'default', restrictKubeConfigAccess: false, serverUrl: 'https://jump-host:6443') 
             }
+            {
+                    sh 'kubectl apply -f deployment.yaml' 
+            
+            }
+                    
         }
     }
 }
